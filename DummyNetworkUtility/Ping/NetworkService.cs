@@ -21,6 +21,23 @@ namespace DummyNetworkUtility.Ping
         {
             return x + y;
         }
-        
+
+        public DateTime LastPingDateTime()
+        {
+            return DateTime.Now;
+        }
+
+        // using a built in object for unit testing an object type
+        public Uri GetPingUri()
+        {
+            var builder = new UriBuilder
+            {
+                Scheme = Uri.UriSchemeHttps,
+                Host = "www.example.com"
+            };
+
+            return builder.Uri;
+        }
+
     }
 }

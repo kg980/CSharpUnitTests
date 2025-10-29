@@ -56,5 +56,44 @@ namespace DummyNetworkUtility.Tests.PingTests
             result.Should().BeGreaterThanOrEqualTo(Math.Min(x, y));
             result.Should().BeGreaterThanOrEqualTo(0);
         }
+
+
+        [Fact]
+        public void LastPingDateTime_ReturnsRecentDateTime()
+        {
+            // Arrange
+            //var networkService = _networkService;
+            
+            // Act
+            var result = _networkService.LastPingDateTime();
+            
+            // Assert
+            result.Should().BeCloseTo(DateTime.Now, TimeSpan.FromSeconds(1));
+            result.Should().BeAfter(DateTime.Now.AddMinutes(-1));
+            result.Kind.Should().Be(DateTimeKind.Local);
+        }
+
+        [Fact]
+        public void GetPingUri_ReturnsValidHttpsUri()
+        {
+            // Arrange
+            //var networkService = _networkService;
+            
+            // Act
+            var result = _networkService.GetPingUri();
+
+            // Assert
+            // Using xUnit assertions
+            Assert.NotNull(result);
+            Assert.Equal(Uri.UriSchemeHttps, result.Scheme);
+            Assert.Equal("www.example.com", result.Host);
+            Assert.Equal("https://www.example.com/", result.AbsoluteUri);
+
+            // Using FluentAssertions to do the same thing
+            result.Should().NotBeNull();
+            result.Scheme.Should().Be(Uri.UriSchemeHttps);
+            result.Host.Should().Be("www.example.com");
+            result.AbsoluteUri.Should().Be("https://www.example.com/");
+        }
     }
 }
