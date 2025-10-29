@@ -8,10 +8,19 @@ namespace DummyNetworkUtility.Ping
 {
     public class NetworkService
     {
+        /// <summary>
+        /// Dummy methods to simulate network ping functionality for unit testing purposes of varied return types. 
+        /// </summary>
+
         public string SendPing()
         {
-            // Simulating sending a ping to a client for the purpose of creating unit tests
             return "Success: Ping client";
         }
+    
+        public int PingTimeout(int x, int y)
+        {
+            return x + y;
+        }
+        
     }
 }
