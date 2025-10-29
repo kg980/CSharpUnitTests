@@ -39,5 +39,17 @@ namespace DummyNetworkUtility.Ping
             return builder.Uri;
         }
 
+
+        public IEnumerable<Uri> GetRecentPingUris()
+        {
+            IEnumerable<Uri> uris = new []
+            {
+                new Uri("https://www.example1.com"),
+                new Uri("https://www.example2.com"),
+                new Uri("https://www.example3.com")
+            };
+            return uris;
+        }
+
     }
 }

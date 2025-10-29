@@ -129,25 +129,25 @@ namespace DummyNetworkUtility.Tests.PingTests
         }
 
 
-        //[Fact]
-        //public void GetPingUri_ReturnsValidHttpsUri_Mock()
-        //{
-        //    // Arrange
-        //    var mockNetworkService = new Mock<NetworkService>();
-        //    mockNetworkService.Setup(ns => ns.GetPingUri()).Returns(new Uri("https://www.example.com/"));
-
-        //    // Act
-        //    var result = mockNetworkService.Object.GetPingUri();
-
-        //    // Assert
-
-        //    result.Should().NotBeNull();
-        //    result.Should().BeOfType<Uri>();
-
-        //    result.Scheme.Should().BeEquivalentTo(Uri.UriSchemeHttps);
-        //    result.Host.Should().BeEquivalentTo("www.example.com");
-        //    result.AbsoluteUri.Should().BeEquivalentTo("https://www.example.com/");
-
-        //}
+        [Fact]
+        public void GetRecentPingUris_ReturnsExpectedUriCollection()
+        {
+            // Arrange
+            var expectedUris = new List<Uri>
+            {
+                new Uri("https://www.example1.com"),
+                new Uri("https://www.example2.com"),
+                new Uri("https://www.example3.com")
+            };
+            // Act
+            var result = _networkService.GetRecentPingUris();
+            // Assert
+            result.Should().NotBeNull();
+            //result.Should().BeOfType<IEnumerable<Uri>>();
+            result.Should().BeAssignableTo<IEnumerable<Uri>>();
+            result.Should().HaveCount(3);
+            //result.Should().ContainEquivalentOf(expectedUris); // ContainEquivalentOf expects a single item to match one element in the collection
+            result.Should().BeEquivalentTo(expectedUris);
+        }
     }
 }
