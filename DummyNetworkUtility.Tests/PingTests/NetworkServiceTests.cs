@@ -84,6 +84,7 @@ namespace DummyNetworkUtility.Tests.PingTests
 
             // Assert
             // Using xUnit assertions
+            // .Equal compares Values for value types and references for reference types. So it's acceptable here
             Assert.NotNull(result);
             Assert.Equal(Uri.UriSchemeHttps, result.Scheme);
             Assert.Equal("www.example.com", result.Host);
@@ -91,9 +92,18 @@ namespace DummyNetworkUtility.Tests.PingTests
 
             // Using FluentAssertions to do the same thing
             result.Should().NotBeNull();
-            result.Scheme.Should().Be(Uri.UriSchemeHttps);
-            result.Host.Should().Be("www.example.com");
-            result.AbsoluteUri.Should().Be("https://www.example.com/");
+            result.Should().BeOfType<Uri>();
+
+            // Removing Strict equalities.
+            // Reference type (object) comparisons should use BeEquivalentTo.
+            
+            //result.Scheme.Should().Be(Uri.UriSchemeHttps);
+            //result.Host.Should().Be("www.example.com");
+            //result.AbsoluteUri.Should().Be("https://www.example.com/");
+            result.Scheme.Should().BeEquivalentTo(Uri.UriSchemeHttps);
+            result.Host.Should().BeEquivalentTo("www.example.com");
+            result.AbsoluteUri.Should().BeEquivalentTo("https://www.example.com/");
+
         }
     }
 }
