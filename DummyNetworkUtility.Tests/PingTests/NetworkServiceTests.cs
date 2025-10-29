@@ -105,5 +105,49 @@ namespace DummyNetworkUtility.Tests.PingTests
             result.AbsoluteUri.Should().BeEquivalentTo("https://www.example.com/");
 
         }
+
+
+        // example of using an expected object, without Moq library
+        [Fact]
+        public void GetPingUri_ReturnsValidHttpsUri_ManualMock()
+        {
+            // Arrange
+            var builder = new UriBuilder
+            {
+                Scheme = Uri.UriSchemeHttps,
+                Host = "www.example.com"
+            };
+            var expected = builder.Uri;
+            
+            // Act
+            var result = _networkService.GetPingUri();
+            
+            // Assert
+            result.Should().NotBeNull();
+            result.Should().BeOfType<Uri>();
+            result.Should().BeEquivalentTo(expected);
+        }
+
+
+        //[Fact]
+        //public void GetPingUri_ReturnsValidHttpsUri_Mock()
+        //{
+        //    // Arrange
+        //    var mockNetworkService = new Mock<NetworkService>();
+        //    mockNetworkService.Setup(ns => ns.GetPingUri()).Returns(new Uri("https://www.example.com/"));
+
+        //    // Act
+        //    var result = mockNetworkService.Object.GetPingUri();
+
+        //    // Assert
+
+        //    result.Should().NotBeNull();
+        //    result.Should().BeOfType<Uri>();
+
+        //    result.Scheme.Should().BeEquivalentTo(Uri.UriSchemeHttps);
+        //    result.Host.Should().BeEquivalentTo("www.example.com");
+        //    result.AbsoluteUri.Should().BeEquivalentTo("https://www.example.com/");
+
+        //}
     }
 }
