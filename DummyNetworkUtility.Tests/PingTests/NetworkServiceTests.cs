@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DummyNetworkUtility.DNS;
 using DummyNetworkUtility.Ping;
+using FakeItEasy;
 using FluentAssertions;
 using Xunit;
 
@@ -12,10 +14,14 @@ namespace DummyNetworkUtility.Tests.PingTests
     public class NetworkServiceTests
     {
         private readonly NetworkService _networkService;
+        private readonly IDNS _dns;
         public NetworkServiceTests() 
         {
+            //Dependencies - Dependency Injection goes here
+            _dns = A.Fake<IDNS>();  
+
             // SUT - System Under Test
-            _networkService = new NetworkService();
+            _networkService = new NetworkService(_dns);
         }
 
         [Fact]
@@ -23,6 +29,10 @@ namespace DummyNetworkUtility.Tests.PingTests
         {
             // Arrange
             //var networkService = _networkService;
+
+            // This call mocks the dependency behavior
+            // It doesnt actually happen (can see in debug mode, the method gets skipped)
+            A.CallTo(() => _dns.SendDNS()).Returns(true);
 
             // Act
             var result = _networkService.SendPing();
@@ -148,6 +158,7 @@ namespace DummyNetworkUtility.Tests.PingTests
             result.Should().HaveCount(3);
             //result.Should().ContainEquivalentOf(expectedUris); // ContainEquivalentOf expects a single item to match one element in the collection
             result.Should().BeEquivalentTo(expectedUris);
+            result.Should().Contain(x => x.Host.Contains("example2"));
         }
     }
 }
